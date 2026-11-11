@@ -1,95 +1,81 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Musina Municipality - Self Service Billing</title>
+<title>Musina Municipality | Self-Service Billing</title>
 <style>
-body{font-family:Arial;margin:0;background:#f2f2f2;text-align:center}
-.top{background:white;padding:15px;border-bottom:5px solid #FFCC00}
-.top img{width:90px}
-.top h1{color:#006633;margin:5px 0 0;font-size:28px}
-.top h2{color:#006633;margin:0;font-size:16px}
-.top p{margin:5px 0;color:#333;font-style:italic;font-size:13px}
-.title{color:#006633;text-align:left;padding:15px 20px 0}
-.title h2{margin:0;font-size:26px}
-.title p{margin:0}
-.box{background:white;margin:15px 20px;padding:20px;border-radius:12px;text-align:left}
-input{width:92%;padding:14px;font-size:18px;margin:10px 0;border:2px solid #006633;border-radius:8px}
-button{width:100%;padding:15px;font-size:18px;background:#FFCC00;color:#006633;border:none;border-radius:8px;font-weight:bold}
-button.green{background:#006633;color:white}
-.amount{font-size:22px;color:#006633;font-weight:bold}
-.due{color:#c00;font-weight:bold}
-.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dotted #999}
-.paid{color:green;font-weight:bold}
-.unpaid{color:red;font-weight:bold}
-.hidden{display:none}
-.footer{background:#006633;color:white;padding:15px;border-top:5px solid #FFCC00;font-style:italic}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#f2f2f2;color:#222}
+header{background:#007749;color:#fff;padding:20px;text-align:center;border-bottom:6px solid #FFCC00}
+header img{width:110px;background:#fff;padding:8px;border-radius:10px}
+header h1{font-size:26px;margin-top:10px}
+header p{font-size:14px;opacity:.9}
+.box{max-width:520px;margin:25px auto;background:#fff;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.15)}
+.box h2{color:#007749;margin-bottom:15px;text-align:center}
+label{font-weight:bold;font-size:14px}
+input,select{width:100%;padding:13px;margin:8px 0 15px;border:2px solid #ddd;border-radius:8px;font-size:16px}
+button{width:100%;padding:14px;background:#007749;color:#fff;border:none;border-radius:8px;font-size:17px;font-weight:bold;cursor:pointer}
+button:hover{background:#005c39}
+#result{display:none;margin-top:20px;background:#e8f5e9;padding:18px;border-radius:10px;border-left:6px solid #007749}
+#result p{margin:6px 0;font-size:15px}
+.amount{font-size:26px;color:#c62828;font-weight:bold}
+.pay{background:#FFCC00;color:#000;margin-top:15px}
+footer{text-align:center;padding:20px;font-size:13px;color:#666}
+.demo{background:#fff3cd;padding:12px;border-radius:8px;font-size:13px;margin-bottom:15px}
 </style>
 </head>
 <body>
 
-<div class="top">
-<img src="logo.png">
-<h1>MUSINA</h1>
-<h2>LOCAL MUNICIPALITY</h2>
-<p>Musina Municipality, you speak and we listen</p>
+<header>
+<img src="musina-logo.jpg" alt="Musina Logo">
+<h1>MUSINA LOCAL MUNICIPALITY</h1>
+<p>Self-Service Billing Portal | OPIBUS LOCA FETA</p>
+</header>
+
+<div class="box">
+<h2>Check Your Municipal Bill</h2>
+
+<div class="demo">
+<b>DEMO PHELA, BOSS:</b><br>
+Try Account: <b>1001</b> or <b>1002</b>
 </div>
 
-<div class="title">
-<h2>Self Service Billing</h2>
-<p>Management Demo</p>
+<label>Account Number</label>
+<input id="acc" type="text" placeholder="e.g. 1001">
+
+<label>Service</label>
+<select id="service">
+<option>All Services</option>
+<option>Water</option>
+<option>Electricity</option>
+<option>Rates</option>
+<option>Refuse Removal</option>
+</select>
+
+<button onclick="checkBill()">VIEW BILL</button>
+
+<div id="result"></div>
 </div>
 
-<div class="box" id="loginBox">
-<h2>Login with Meter Number</h2>
-<label>Enter Meter Number</label><br>
-<input id="meter" placeholder="MUS-10234">
-<button onclick="login()">View My Bill</button>
-<p>Demo: type any meter number, e.g. MUS-10234</p>
-</div>
-
-<div class="box hidden" id="billBox">
-<h2>Bill Summary</h2>
-<div class="amount">Amount To Pay R1,245.50</div>
-<p class="due">Due Date: 25 November 2026 • NOT PAID</p>
-<p id="status"></p>
-<h2>Breakdown</h2>
-<div class="row"><span>Electricity</span><b>R650</b></div>
-<div class="row"><span>Water</span><b>R320.50</b></div>
-<div class="row"><span>Rates</span><b>R200</b></div>
-<div class="row"><span>Refuse</span><b>R75</b></div>
-<br>
-<button class="green" onclick="pay()">Pay Now</button>
-<br><br>
-<button onclick="logout()" style="background:#666;color:white">Logout</button>
-</div>
-
-<div class="box hidden" id="historyBox">
-<h2>Bill History</h2>
-<div class="row"><span>Oct 2026 - R1,200.00</span><b class="paid">Paid</b></div>
-<div class="row"><span>Sep 2026 - R1,180.00</span><b class="unpaid">Not Paid</b></div>
-<div class="row"><span>Aug 2026 - R1,210.00</span><b class="paid">Paid</b></div>
-<p style="text-align:center;color:#006633"><b>Bill History →</b></p>
-</div>
-
-<div class="footer">Together for a safer Musina</div>
+<footer>
+21 Irwin Street, Musina, 0900 | www.musina.gov.za<br>
+© 2026 Musina Local Municipality. All Rights Reserved.
+</footer>
 
 <script>
-function login(){
-  var m=document.getElementById("meter").value;
-  if(m.length<5){alert("Enter meter number, boss!");return;}
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("billBox").classList.remove("hidden");
-  document.getElementById("historyBox").classList.remove("hidden");
+const data={
+"1001":{name:"T. Muleya",address:"12 Nancefield, Musina",water:"R420.50",elec:"R890.00",rates:"R650.00",refuse:"R180.00",total:"R2,140.50",due:"30 November 2026",status:"DUE"},
+"1002":{name:"P. Chauke",address:"45 Messina Ext, Musina",water:"R310.00",elec:"R620.00",rates:"R540.00",refuse:"R180.00",total:"R1,650.00",due:"30 November 2026",status:"PAID"}
+};
+function checkBill(){
+let a=document.getElementById("acc").value.trim();
+let d=data[a];
+let r=document.getElementById("result");
+if(!d){r.style.display="block";r.innerHTML="<b style='color:red'>Account not found, boss. Try 1001 or 1002.</b>";return;}
+r.style.display="block";
+r.innerHTML="<p><b>Name:</b> "+d.name+"</p><p><b>Address:</b> "+d.address+"</p><p><b>Water:</b> "+d.water+"</p><p><b>Electricity:</b> "+d.elec+"</p><p><b>Rates:</b> "+d.rates+"</p><p><b>Refuse:</b> "+d.refuse+"</p><hr><p>Total Due:</p><p class='amount'>"+d.total+"</p><p><b>Due Date:</b> "+d.due+"</p><p><b>Status:</b> "+d.status+"</p><button class='pay' onclick=\"alert('Demo payment successful. Thank you!')\">PAY NOW</button>";
 }
-function pay(){
-  document.getElementById("status").innerText="PAID - Thank You";
-  document.getElementById("status").className="paid";
-  alert("Payment successful! Demo only.");
-}
-function logout(){location.reload();}
 </script>
-
 </body>
 </html>
