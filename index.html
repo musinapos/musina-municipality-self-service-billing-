@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Musina Municipality - Self Service Billing</title>
+<style>
+body{font-family:Arial;margin:0;background:#f2f2f2;text-align:center}
+.top{background:white;padding:15px;border-bottom:5px solid #FFCC00}
+.top img{width:90px}
+.top h1{color:#006633;margin:5px 0 0;font-size:28px}
+.top h2{color:#006633;margin:0;font-size:16px}
+.top p{margin:5px 0;color:#333;font-style:italic;font-size:13px}
+.title{color:#006633;text-align:left;padding:15px 20px 0}
+.title h2{margin:0;font-size:26px}
+.title p{margin:0}
+.box{background:white;margin:15px 20px;padding:20px;border-radius:12px;text-align:left}
+input{width:92%;padding:14px;font-size:18px;margin:10px 0;border:2px solid #006633;border-radius:8px}
+button{width:100%;padding:15px;font-size:18px;background:#FFCC00;color:#006633;border:none;border-radius:8px;font-weight:bold}
+button.green{background:#006633;color:white}
+.amount{font-size:22px;color:#006633;font-weight:bold}
+.due{color:#c00;font-weight:bold}
+.row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px dotted #999}
+.paid{color:green;font-weight:bold}
+.unpaid{color:red;font-weight:bold}
+.hidden{display:none}
+.footer{background:#006633;color:white;padding:15px;border-top:5px solid #FFCC00;font-style:italic}
+</style>
+</head>
+<body>
+
+<div class="top">
+<img src="logo.png">
+<h1>MUSINA</h1>
+<h2>LOCAL MUNICIPALITY</h2>
+<p>Musina Municipality, you speak and we listen</p>
+</div>
+
+<div class="title">
+<h2>Self Service Billing</h2>
+<p>Management Demo</p>
+</div>
+
+<div class="box" id="loginBox">
+<h2>Login with Meter Number</h2>
+<label>Enter Meter Number</label><br>
+<input id="meter" placeholder="MUS-10234">
+<button onclick="login()">View My Bill</button>
+<p>Demo: type any meter number, e.g. MUS-10234</p>
+</div>
+
+<div class="box hidden" id="billBox">
+<h2>Bill Summary</h2>
+<div class="amount">Amount To Pay R1,245.50</div>
+<p class="due">Due Date: 25 November 2026 • NOT PAID</p>
+<p id="status"></p>
+<h2>Breakdown</h2>
+<div class="row"><span>Electricity</span><b>R650</b></div>
+<div class="row"><span>Water</span><b>R320.50</b></div>
+<div class="row"><span>Rates</span><b>R200</b></div>
+<div class="row"><span>Refuse</span><b>R75</b></div>
+<br>
+<button class="green" onclick="pay()">Pay Now</button>
+<br><br>
+<button onclick="logout()" style="background:#666;color:white">Logout</button>
+</div>
+
+<div class="box hidden" id="historyBox">
+<h2>Bill History</h2>
+<div class="row"><span>Oct 2026 - R1,200.00</span><b class="paid">Paid</b></div>
+<div class="row"><span>Sep 2026 - R1,180.00</span><b class="unpaid">Not Paid</b></div>
+<div class="row"><span>Aug 2026 - R1,210.00</span><b class="paid">Paid</b></div>
+<p style="text-align:center;color:#006633"><b>Bill History →</b></p>
+</div>
+
+<div class="footer">Together for a safer Musina</div>
+
+<script>
+function login(){
+  var m=document.getElementById("meter").value;
+  if(m.length<5){alert("Enter meter number, boss!");return;}
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("billBox").classList.remove("hidden");
+  document.getElementById("historyBox").classList.remove("hidden");
+}
+function pay(){
+  document.getElementById("status").innerText="PAID - Thank You";
+  document.getElementById("status").className="paid";
+  alert("Payment successful! Demo only.");
+}
+function logout(){location.reload();}
+</script>
+
+</body>
+</html>
